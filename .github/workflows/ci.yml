@@ -39,13 +39,6 @@ jobs:
           distribution: "temurin"
           cache: "gradle"
 
-      - name: Git Configuraion
-        run: |
-          git config --global user.name "libretube-bot"
-          git config --global user.email "libretube@proton.me"
-          git config --global credential.helper store
-          echo "https://libretube-bot:${{ secrets.GH_TOKEN }}@github.com" > ~/.git-credentials
-
       - name: Compile
         run: |
           ./gradlew assembleRelease
@@ -57,7 +50,7 @@ jobs:
           echo "GH_REPO = '${{ github.repository }}'" > config_file.py
           git clone --filter=blob:none https://github.com/libre-tube/NightlyBuilds nightly
           rm -rf nightly/*.apk
-          mv app/build/outputs/apk/debug/*.apk nightly/
+          mv app/build/outputs/apk/release/*.apk nightly/
           cd nightly
           python ../uploader.py
       
